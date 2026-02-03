@@ -70,6 +70,7 @@ class scoreController extends Controller
         'uas'   => 'numeric'
     ]);
 
+    
     if ($validator->fails()) {
         return response()->json($validator->errors(), 422);
     }

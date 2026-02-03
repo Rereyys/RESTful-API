@@ -15,7 +15,7 @@ class scoreController extends Controller
      */
     public function index()
     {
-        return score::all()->toResourceCollection(resourceClass: scoreResource::class);
+        return new scoreResource(true, 'Data retrieved successfully', score::all());
     }
 
     /**
@@ -40,7 +40,7 @@ class scoreController extends Controller
             'uts' => $request->uts,
             'uas' => $request->uas
         ]);
-        return new scoreResource($score);
+        return new scoreResource(true, 'Data created successfully', $score);
     }
 
     /**
@@ -48,7 +48,7 @@ class scoreController extends Controller
      */
     public function show(string $id)
     {
-        return score::findOrfail($id)->toResource(scoreResource::class);
+        return new scoreResource(true, 'Data found', score::findOrFail($id));
     }
 
     /**
@@ -76,19 +76,15 @@ class scoreController extends Controller
     }
 
     $student->update($request->all());
-
-    return new scoreResource($student);
+    return new scoreResource(true, 'Data updated successfully', $student);
 }
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
-        $student = score::findOrfail($id);
-        if (!$student) {
-            return response()->json(['message' => 'data not found bjri'], 404);
-        }
+        $student = score::findOrFail($id);
         $student->delete();
-        return response()->json(['message' => 'ea']);
+        return new scoreResource(true, 'Data deleted successfully', $student);
     }
 }

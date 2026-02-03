@@ -84,6 +84,11 @@ class scoreController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $student = score::findOrfail($id);
+        if (!$student) {
+            return response()->json(['message' => 'data not found bjri'], 404);
+        }
+        $student->delete();
+        return response()->json(['message' => 'ea']);
     }
 }

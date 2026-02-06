@@ -6,7 +6,7 @@ use App\Models\score;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
-class ScoreController extends Controller
+class scoreController extends Controller
 {
     public function index()
     {

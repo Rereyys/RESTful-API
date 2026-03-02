@@ -13,9 +13,11 @@ class scoreController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): scoreResource
     {
-        return new scoreResource(true, 'Data retrieved successfully', score::all());
+    $scores = score::all();
+    
+    return new scoreResource(true, 'Data retrieved successfully', $scores);
     }
 
     /**
@@ -34,7 +36,7 @@ class scoreController extends Controller
             return response()->json($validator->errors(), 422);
         }   
         $score = score::create([
-            '_id' => $request->_id,
+            '_id' => $request->id,
             'Name' => $request->Name,
             'tugas' => $request->tugas,
             'uts' => $request->uts,
@@ -48,7 +50,11 @@ class scoreController extends Controller
      */
     public function show(string $id)
     {
-        return new scoreResource(true, 'Data found', score::findOrFail($id));
+        $score = score::find($id);
+        if (!$score) {
+            return response()->json(['message' => 'Data tidak ditemukan!'], 404);
+        }
+        return new scoreResource(true, 'Data retrieved successfully', $score);
     }
 
     /**
@@ -64,6 +70,7 @@ class scoreController extends Controller
     }
 
     $validator = Validator::make($request->all(), [
+        'id'    => 'string|max:255',
         'Name'  => 'string|max:255',
         'tugas' => 'numeric',
         'uts'   => 'numeric',
@@ -85,6 +92,6 @@ class scoreController extends Controller
     {
         $student = score::findOrFail($id);
         $student->delete();
-        return new scoreResource(true, 'Data deleted successfully', $student);
+        return new scoreResource(true, 'Data deleted successfully', 200);
     }
 }

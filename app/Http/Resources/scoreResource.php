@@ -12,7 +12,7 @@ class scoreResource extends JsonResource
 
     public function __construct ($status, $message, $resource)
     {
-        
+        parent::__construct($resource);
         $this->status = $status;
         $this->message = $message;
         return parent::__construct($resource);
@@ -27,13 +27,7 @@ class scoreResource extends JsonResource
         return [
             'status'=> $this->status,
             'message'=> $this->message,
-            'data'=>[
-                'id' => $this->_id,
-                'Name' => $this->Name,
-                'tugas' => $this->tugas,
-                'uts' => $this->uts,
-                'uas' => $this->uas,
-            ]
+            'data'=>$this->resource
             
         ];
 
